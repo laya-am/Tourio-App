@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const placeSchema = new Schema({
-  image: String,
   name: String,
   location: String,
+  image: String,
   mapURL: String,
   description: String
 });
