@@ -1,13 +1,12 @@
-import { places } from '../../../../lib/db.js';
+import Place from "../../../../db/models/Place";
 
-export default function handler(request, response) {
+export default async function handler(request, response) {
   const { id } = request.query;
+  const place= await Place.findById(id);
 
   if (!id) {
-    return;
+    return ;
   }
-
-  const place = places.find((place) => place.id === id);
 
   if (!place) {
     return response.status(404).json({ status: 'Not found' });
