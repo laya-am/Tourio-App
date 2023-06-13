@@ -2,15 +2,20 @@ import Place from "../../../../db/models/Place";
 
 export default async function handler(request, response) {
   const { id } = request.query;
-  const place= await Place.findById(id);
-
-  if (!id) {
-    return ;
+  if (request.method === "GET"){
+    const place= await Place.findById(id);
+    return response.status(200).json(place);
   }
-
-  if (!place) {
-    return response.status(404).json({ status: 'Not found' });
+  if(request.method === "PATCH"){
+    const placeToEdit = await Place.findByIdAndUpdate(id, {$set: request.body,});
+    return response.status(200).json(placeToEdit);
   }
-
-  response.status(200).json(place);
-}
+  if(request.method === "DELETE"){
+    const placeToDelete = await Place.findByIdAndDelete(id, {$set: request.body,});
+    return response.status(200).json(placeToDelete);
+  }
+  // if (!id) {
+  //   return ;
+  // }
+  return response.status(404).json({ status: 'Not found' });
+};

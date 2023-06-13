@@ -13,6 +13,7 @@ export default function CreatePlacePage() {
   const places = useSWR("/api/places");
 
   const router = useRouter();
+  const {push}= router;
 
   async function addPlace(newPlace) {
     const response = await fetch("/api/places", {
@@ -22,8 +23,7 @@ export default function CreatePlacePage() {
         "Content-Type": "application/json",
       },
     });
-    // console.log({response});
-
+    
     if(response.ok){
       await response.json();
       places.mutate();
@@ -31,6 +31,7 @@ export default function CreatePlacePage() {
     }else{
       console.error(`Error: ${response.status}`)
     }
+      push("/");
   }
 
   return (
